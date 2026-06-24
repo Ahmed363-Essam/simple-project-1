@@ -14,7 +14,7 @@ pipeline{
             steps{
                 sh """
                 cd simple-projects2
-                ansible-playbook ansible.yaml
+                ansible-playbook ansible-playbook.yml
                 """
             }
             
