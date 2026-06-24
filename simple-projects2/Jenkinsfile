@@ -1,0 +1,23 @@
+pipeline{
+    agent any 
+    environment{
+        DOCKERHUB_CREDENTIAL=credential('docker-hub');
+    }
+    stages{
+        stage('Docker LOGIN'){
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIAL_PSW | docker login -u $DOCKERHUB_CREDENTIAL_USR --password-stdin'
+            }
+        }
+        
+        stage('Docker build and push'){
+            steps{
+                sh """
+                cd simple-projects2
+                ansible-playbook ansible.yaml
+                """
+            }
+            
+        }
+    }
+}
