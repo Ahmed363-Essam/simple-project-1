@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage('Docker LOGIN'){
             steps{
-                sh 'echo "test" | docker login -u "$DOCKERHUB_CREDENTIAL_USR" --password-stdin'            }
+                sh 'echo "$DOCKERHUB_CREDENTIAL_USR" | docker login -u "$DOCKERHUB_CREDENTIAL_USR" --password-stdin'            }
         }
         
         stage('Docker build and push'){
