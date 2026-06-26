@@ -11,14 +11,18 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Install the dependencies to run php
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpng-dev \
-    zlib1g-dev \
-    libxml2-dev \
-    libzip-dev \
-    zip \
-    curl \
-    unzip \
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list \
+    && sed -i 's/security.debian.org\/debian-security/archive.debian.org\/debian-security/g' /etc/apt/sources.list \
+    && sed -i '/stretch-updates/d' /etc/apt/sources.list \
+    && sed -i '/buster-updates/d' /etc/apt/sources.list \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        libpng-dev \
+        zlib1g-dev \
+        libxml2-dev \
+        libzip-dev \
+        zip \
+        curl \
+        unzip \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
@@ -26,7 +30,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-install zip \
     && docker-php-source delete \
     && rm -rf /var/lib/apt/lists/*
-
 
 COPY ./vhost.conf /etc/apache2/sites-available/000-default.conf
 
