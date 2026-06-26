@@ -13,7 +13,7 @@ COPY . /var/www/html/
 # Install the dependencies to run php
 
 RUN echo "deb http://archive.debian.org/debian/ bullseye main" > /etc/apt/sources.list \
-    && echo "deb http://archive.debian.org/debian-security/ bullseye-security main" >> /etc/apt/sources.list \
+    && echo "deb http://archive.debian.org/debian-security/ bullseye-security/updates main" >> /etc/apt/sources.list \
     && echo "deb http://archive.debian.org/debian/ bullseye-updates main" >> /etc/apt/sources.list \
     && apt-get update && apt-get install -y --no-install-recommends \
         libpng-dev \
