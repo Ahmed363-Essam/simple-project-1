@@ -11,10 +11,10 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # Install the dependencies to run php
-RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list \
-    && sed -i 's/security.debian.org\/debian-security/archive.debian.org\/debian-security/g' /etc/apt/sources.list \
-    && sed -i '/stretch-updates/d' /etc/apt/sources.list \
-    && sed -i '/buster-updates/d' /etc/apt/sources.list \
+
+RUN echo "deb http://archive.debian.org/debian/ bullseye main" > /etc/apt/sources.list \
+    && echo "deb http://archive.debian.org/debian-security/ bullseye-security main" >> /etc/apt/sources.list \
+    && echo "deb http://archive.debian.org/debian/ bullseye-updates main" >> /etc/apt/sources.list \
     && apt-get update && apt-get install -y --no-install-recommends \
         libpng-dev \
         zlib1g-dev \
@@ -30,6 +30,7 @@ RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list \
     && docker-php-ext-install zip \
     && docker-php-source delete \
     && rm -rf /var/lib/apt/lists/*
+
 
 COPY ./vhost.conf /etc/apache2/sites-available/000-default.conf
 
