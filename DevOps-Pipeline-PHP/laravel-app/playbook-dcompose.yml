@@ -32,3 +32,10 @@
     # command: docker exec -i `docker ps -q --filter name=php-apache` bash -c "composer update"
 
 
+- name: Fix Laravel permissions
+  ansible.builtin.shell: |
+    chown -R www-data:www-data /var/www/html/storage
+    chown -R www-data:www-data /var/www/html/bootstrap/cache
+    chmod -R 775 /var/www/html/storage
+    chmod -R 775 /var/www/html/bootstrap/cache
+  become: true
